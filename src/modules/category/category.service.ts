@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Category } from 'src/entities';
 import { Repository } from 'typeorm';
-import { Category } from 'src/entities/category.entity';
+import { CategoryDto } from './dto/category.dto';
 
 @Injectable()
 export class CategoryService {
@@ -10,6 +11,13 @@ export class CategoryService {
   findAll() {
     return this.repo.find();
   }
-}
 
-    
+  create(data: Partial<CategoryDto>) {
+    const { userId, ...rest } = data;
+    const entity = this.repo.create({
+      ...rest,
+      user: { id: userId },
+    });
+    return this.repo.save(entity);
+  }
+}

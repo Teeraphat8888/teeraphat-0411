@@ -1,7 +1,7 @@
 import {Entity,PrimaryGeneratedColumn,Column,ManyToOne,CreateDateColumn,UpdateDateColumn,} from 'typeorm';
 import { User } from './user.entity';
 
-@Entity({name:'category'})
+@Entity({ name: 'category' })
 export class Category {
   @PrimaryGeneratedColumn()
   id: number;
@@ -9,8 +9,8 @@ export class Category {
   @Column({ unique: true })
   name: string;
 
-  @Column()
-  type: string;
+  @Column({ type: 'enum', enum: ['income', 'expense'] })
+  type: 'income' | 'expense';
 
   @ManyToOne(() => User, (user) => user.id, { nullable: true })
   user: User;
